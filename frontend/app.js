@@ -6,7 +6,7 @@
 'use strict';
 
 /* ─── Config ─────────────────────────────────────────────── */
-const API_BASE = 'http://localhost:8000';
+const API_BASE = 'https://hamzameer-travel-ai-planner.hf.space' || 'http://localhost:8000';
 const ENDPOINTS = {
   flights: `${API_BASE}/search_flights/`,
   hotels: `${API_BASE}/search_hotels/`,
