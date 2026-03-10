@@ -1,0 +1,30 @@
+# Environment secrets – NEVER bake into the image
+.env
+.env.*
+
+# Virtual environments
+.venv
+venv
+env
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Frontend is hosted on Netlify, not needed inside the container
+frontend/
+
+# Dev / editor files
+.vscode/
+.idea/
+*.DS_Store
+
+# Streamlit entry-point (not used by FastAPI server)
+TravelPlanner_Streamlit.py
