@@ -210,12 +210,12 @@ For the best experience:
 
 ## API Endpoints
 
-| Endpoint | Method | Purpose |
-| --- | --- | --- |
-| `/search_flights/` | `POST` | Search flights and return an AI recommendation |
-| `/search_hotels/` | `POST` | Search hotels and return an AI recommendation |
-| `/complete_search/` | `POST` | Search flights and hotels together and generate a trip itinerary |
-| `/generate_itinerary/` | `POST` | Generate an itinerary from supplied flight and hotel text |
+| Endpoint               | Method | Purpose                                                          |
+| ---------------------- | ------ | ---------------------------------------------------------------- |
+| `/search_flights/`     | `POST` | Search flights and return an AI recommendation                   |
+| `/search_hotels/`      | `POST` | Search hotels and return an AI recommendation                    |
+| `/complete_search/`    | `POST` | Search flights and hotels together and generate a trip itinerary |
+| `/generate_itinerary/` | `POST` | Generate an itinerary from supplied flight and hotel text        |
 
 ## Example User Journey
 
