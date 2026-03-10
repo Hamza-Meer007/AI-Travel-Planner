@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Travel Planner ✈️</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ═══════════════════════ BACKGROUND ═══════════════════════ -->
+  <div class="bg-layer" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+    <div class="stars" id="stars"></div>
+  </div>
+
+  <!-- ═══════════════════════ NAVBAR ═══════════════════════ -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <!-- Inline SVG globe logo -->
+      <svg class="brand-logo-svg" width="34" height="34" viewBox="0 0 34 34" fill="none"
+        xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="bLg" x1="0" y1="0" x2="34" y2="34" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#818CF8" />
+            <stop offset="100%" stop-color="#2DD4BF" />
+          </linearGradient>
+        </defs>
+        <!-- globe outline -->
+        <circle cx="17" cy="17" r="13" stroke="url(#bLg)" stroke-width="1.5" fill="none" />
+        <!-- equator arc top -->
+        <path d="M4 17 C7 12 13 9 17 11 C21 13 25 11 30 17" stroke="url(#bLg)" stroke-width="1" fill="none"
+          opacity="0.6" />
+        <!-- equator arc bot -->
+        <path d="M4 17 C7 22 13 25 17 23 C21 21 25 23 30 17" stroke="url(#bLg)" stroke-width="1" fill="none"
+          opacity="0.4" />
+        <!-- vertical meridian -->
+        <ellipse cx="17" cy="17" rx="5" ry="13" stroke="url(#bLg)" stroke-width="1" fill="none" opacity="0.50" />
+        <!-- dashed flight path -->
+        <path d="M7 25 Q14 7 27 10" stroke="#FBBF24" stroke-width="1.8" fill="none" stroke-dasharray="3 2.2"
+          stroke-linecap="round" />
+        <!-- plane at end of path -->
+        <text x="24" y="13" font-size="7.5" fill="#FBBF24" transform="rotate(-32 27 11)">&#x2708;</text>
+      </svg>
+      <span class="brand-name">TravelAI</span>
+    </div>
+    <span class="nav-badge">Powered by AI</span>
+  </nav>
+
+  <!-- ═══════════════════════ HERO ═══════════════════════ -->
+  <section class="hero" id="hero-section">
+    <div class="hero-text">
+      <p class="hero-eyebrow"><i class="fas fa-sparkles"></i>&nbsp; Next-Gen Travel Intelligence</p>
+      <h1 class="hero-title">Your Dream Journey<br /><em class="gradient-text">Crafted by AI</em></h1>
+      <p class="hero-subtitle">Real-time flights · Premium hotels · Personalised itineraries — all in one search.</p>
+    </div>
+
+    <!-- ── Search Card ── -->
+    <div class="search-card" id="search-card">
+
+      <!-- Mode Selector -->
+      <div class="mode-strip">
+        <button class="mode-btn active" data-mode="complete">
+          <i class="fas fa-globe"></i> Complete Trip
+        </button>
+        <button class="mode-btn" data-mode="flights">
+          <i class="fas fa-plane"></i> Flights Only
+        </button>
+        <button class="mode-btn" data-mode="hotels">
+          <i class="fas fa-hotel"></i> Hotels Only
+        </button>
+      </div>
+
+      <form id="search-form" novalidate>
+
+        <!-- ── Flight Section ── -->
+        <div class="form-section" id="flight-section">
+          <h4 class="form-section-title">
+            <i class="fas fa-plane-departure"></i> Flight Details
+          </h4>
+          <div class="form-grid">
+            <div class="field-group">
+              <label for="origin">From (IATA)</label>
+              <div class="field-wrap">
+                <i class="fas fa-map-marker-alt field-icon"></i>
+                <input type="text" id="origin" placeholder="BLR" maxlength="3" autocomplete="off" />
+              </div>
+            </div>
+            <div class="field-group">
+              <label for="destination">To (IATA)</label>
+              <div class="field-wrap">
+                <i class="fas fa-location-dot field-icon"></i>
+                <input type="text" id="destination" placeholder="DEL" maxlength="3" autocomplete="off" />
+              </div>
+            </div>
+            <div class="field-group">
+              <label for="outbound-date">Departure Date</label>
+              <div class="field-wrap">
+                <i class="fas fa-calendar field-icon"></i>
+                <input type="date" id="outbound-date" />
+              </div>
+            </div>
+            <div class="field-group">
+              <label for="return-date">Return Date</label>
+              <div class="field-wrap">
+                <i class="fas fa-calendar-check field-icon"></i>
+                <input type="date" id="return-date" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Hotel Section ── -->
+        <div class="form-section" id="hotel-section">
+          <h4 class="form-section-title">
+            <i class="fas fa-hotel"></i> Hotel Details
+          </h4>
+
+          <div class="toggle-row" id="use-dest-row">
+            <label class="toggle-label" for="use-flight-dest">
+              <span class="toggle-track">
+                <input type="checkbox" id="use-flight-dest" checked />
+                <span class="toggle-thumb"></span>
+              </span>
+              Use flight destination for hotel
+            </label>
+          </div>
+
+          <div class="form-grid" id="hotel-location-row" style="display:none">
+            <div class="field-group field-full">
+              <label for="hotel-location">Hotel Location</label>
+              <div class="field-wrap">
+                <i class="fas fa-city field-icon"></i>
+                <input type="text" id="hotel-location" placeholder="City or country (e.g. Tokyo, DXB)" />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="field-group">
+              <label for="check-in-date">Check-In Date</label>
+              <div class="field-wrap">
+                <i class="fas fa-calendar-plus field-icon"></i>
+                <input type="date" id="check-in-date" />
+              </div>
+            </div>
+            <div class="field-group">
+              <label for="check-out-date">Check-Out Date</label>
+              <div class="field-wrap">
+                <i class="fas fa-calendar-minus field-icon"></i>
+                <input type="date" id="check-out-date" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Error banner -->
+        <div class="form-error" id="form-error" style="display:none"></div>
+
+        <!-- Submit -->
+        <button type="submit" class="search-btn" id="search-btn">
+          <i class="fas fa-magnifying-glass"></i>
+          <span class="btn-text">Search Now</span>
+          <div class="btn-shine"></div>
+        </button>
+
+      </form>
+    </div><!-- /.search-card -->
+  </section><!-- /.hero -->
+
+  <!-- ═══════════════════════ LOADING ═══════════════════════ -->
+  <section class="loading-section" id="loading-section" style="display:none" aria-live="polite">
+    <div class="loader-inner">
+      <!-- 3-D globe animation -->
+      <div class="loader-globe-wrap">
+        <div class="l-scene">
+          <div class="l-sphere">
+            <div class="l-sphere-shine"></div>
+          </div>
+          <div class="l-ring l-ring-1"></div>
+          <div class="l-ring l-ring-2"></div>
+          <div class="l-orbit">
+            <span class="l-plane">&#x2708;</span>
+          </div>
+        </div>
+        <div class="l-outer-glow"></div>
+      </div>
+      <h3 class="loader-heading">Planning Your Journey…</h3>
+      <p class="loader-sub" id="loader-sub">Gathering the best options for you</p>
+      <ul class="step-list" id="step-list">
+        <li class="step-item" id="step-flights"><i class="fas fa-circle-notch fa-spin"></i> Searching flights</li>
+        <li class="step-item" id="step-hotels"><i class="fas fa-circle-notch fa-spin"></i> Finding hotels</li>
+        <li class="step-item" id="step-ai"><i class="fas fa-circle-notch fa-spin"></i> AI analysing options</li>
+        <li class="step-item" id="step-itinerary"><i class="fas fa-circle-notch fa-spin"></i> Building itinerary</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════ RESULTS ═══════════════════════ -->
+  <section class="results-section" id="results-section" style="display:none">
+    <div class="results-topbar">
+      <div>
+        <h2 class="results-heading">Your Travel Plan</h2>
+        <p class="results-sub" id="results-meta"></p>
+      </div>
+      <button class="new-search-btn" id="new-search-btn">
+        <i class="fas fa-arrow-left"></i> New Search
+      </button>
+    </div>
+
+    <!-- AI Warning Banner -->
+    <div class="ai-warning" id="ai-warning" style="display:none">
+      <i class="fas fa-triangle-exclamation"></i>
+      <span id="ai-warning-text"></span>
+    </div>
+
+    <!-- Tabs Nav -->
+    <div class="tabs-nav" id="tabs-nav" role="tablist"></div>
+
+    <!-- Tab Panels -->
+    <div class="tab-panels">
+
+      <!-- Flights -->
+      <div class="tab-panel" id="panel-flights" role="tabpanel">
+        <div class="panel-bar">
+          <h3 id="flights-heading">Available Flights</h3>
+          <span class="panel-count" id="flights-count"></span>
+        </div>
+        <div class="flights-grid" id="flights-grid"></div>
+        <p class="empty-state" id="flights-empty" style="display:none">No flights found for your search criteria.</p>
+      </div>
+
+      <!-- Hotels -->
+      <div class="tab-panel" id="panel-hotels" role="tabpanel">
+        <div class="panel-bar">
+          <h3 id="hotels-heading">Available Hotels</h3>
+          <span class="panel-count" id="hotels-count"></span>
+        </div>
+        <div class="hotels-grid" id="hotels-grid"></div>
+        <p class="empty-state" id="hotels-empty" style="display:none">No hotels found for your search criteria.</p>
+      </div>
+
+      <!-- AI Recommendations -->
+      <div class="tab-panel" id="panel-recommendations" role="tabpanel">
+        <div id="rec-flight-block" class="rec-block" style="display:none">
+          <div class="rec-header"><i class="fas fa-plane"></i> AI Flight Recommendation</div>
+          <div class="rec-body" id="rec-flight-body"></div>
+        </div>
+        <div id="rec-hotel-block" class="rec-block" style="display:none">
+          <div class="rec-header"><i class="fas fa-hotel"></i> AI Hotel Recommendation</div>
+          <div class="rec-body" id="rec-hotel-body"></div>
+        </div>
+        <p class="empty-state" id="rec-empty" style="display:none">No recommendations available.</p>
+      </div>
+
+      <!-- Itinerary -->
+      <div class="tab-panel" id="panel-itinerary" role="tabpanel">
+        <div class="itinerary-wrapper">
+          <div class="itinerary-body" id="itinerary-body"></div>
+          <button class="download-btn" id="download-btn" style="display:none">
+            <i class="fas fa-download"></i> Download Itinerary
+          </button>
+        </div>
+        <p class="empty-state" id="itinerary-empty" style="display:none">No itinerary available.</p>
+      </div>
+
+    </div><!-- /.tab-panels -->
+  </section><!-- /.results-section -->
+
+  <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+  <footer class="footer">
+    <span>AI Travel Planner &mdash; v2.0</span>
+    <span class="footer-sep">·</span>
+    <span>&copy; 2026 Travel AI Solutions</span>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
