@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+streamlit
+openai
+pydantic
+python-dotenv
+google-search-results
+crewai==0.22.5
+google-generativeai
+onnxruntime==1.13.1
+setuptools<81
