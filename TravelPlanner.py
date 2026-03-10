@@ -14,7 +14,7 @@ Run with:  uvicorn TravelPlanner:app --reload
 
 import uvicorn
 
-from backend.main import app  # noqa: F401 – re-exported for `uvicorn TravelPlanner:app`
+from backend.app import app  # noqa: F401 – re-exported for `uvicorn TravelPlanner:app`
 
 
 if __name__ == "__main__":

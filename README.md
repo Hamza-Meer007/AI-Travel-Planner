@@ -1,140 +1,265 @@
-# ✈️ AI-Powered Travel Planner
+# AI-Powered Travel Planner
 
-An end-to-end **AI-powered travel planning system** that allows users to search for flights, find hotels, and generate **personalized travel itineraries** using **Agentic AI**.
+An end-to-end travel planning application that combines real-time travel search with AI recommendations. A user enters trip details, the system searches live flight and hotel options, and the AI helps recommend suitable choices and generate a day-by-day itinerary.
 
-This project demonstrates how to build a **real-world GenAI application** using **FastAPI**, **Streamlit**, **CrewAI**, and **Large Language Models (LLMs)**, integrated with **real-time travel data from SerpAPI**.
+This project is designed to be understandable for both technical and non-technical readers. In simple terms:
 
----
+- You enter where and when you want to travel.
+- The app looks up flights and hotels using live travel data.
+- AI compares the available options.
+- The system returns recommendations and a ready-to-use itinerary.
 
-## 🚀 Features
+## What This Project Does
 
-- 🔍 **Real-time flight search** using Google Flights (via SerpAPI)
-- 🏨 **Real-time hotel search** using Google Hotels (via SerpAPI)
-- 🤖 **AI-powered recommendations** for best flights and hotels
-- 🧠 **Agentic AI architecture** using CrewAI
-- 📅 **AI-generated day-by-day travel itinerary**
-- ⚡ **Async FastAPI backend** for performance
-- 🖥️ **Interactive Streamlit frontend**
-- 📥 **Downloadable itinerary (Markdown)**
+The application helps with three core travel tasks:
 
----
+- Flight search: finds live flight options and summarizes the best choice.
+- Hotel search: finds hotel options and highlights a recommended stay.
+- Trip planning: combines results into a readable travel itinerary.
 
-## 🏗️ System Architecture
+## Key Features
 
-**Flow Overview:**
+- Real-time flight search using Google Flights data through SerpAPI
+- Real-time hotel search using Google Hotels data through SerpAPI
+- AI-powered flight and hotel recommendations
+- AI-generated travel itinerary in Markdown format
+- FastAPI backend with asynchronous request handling
+- Modern browser-based frontend in the `frontend/` folder
+- Legacy Streamlit frontend for quick demos and testing
+- Downloadable itinerary output
 
-1. User enters travel details via Streamlit UI
-2. Streamlit sends requests to FastAPI backend
-3. FastAPI fetches real-time data from SerpAPI
-4. CrewAI agents analyze flight & hotel options
-5. AI recommends best options
-6. LLM generates a complete travel itinerary
-7. Results are returned and displayed in the UI
+## How It Works
 
----
+1. The user fills in travel details such as origin, destination, and dates.
+2. The frontend sends the request to the FastAPI backend.
+3. The backend fetches flight and hotel data from SerpAPI.
+4. CrewAI agents analyze the returned options.
+5. The LLM generates recommendations and, if requested, a full itinerary.
+6. Results are displayed in the UI.
 
-## 🧠 Agentic AI Design
+## Screenshots
 
-This system uses **multiple AI agents**, each with a specific role:
+### Main UI
 
-- ✈️ **Flight Analyst Agent**
-  - Evaluates price, duration, stops, and comfort
-- 🏨 **Hotel Analyst Agent**
-  - Analyzes price, rating, location, and amenities
-- 📅 **Travel Planner Agent**
-  - Generates a structured day-by-day itinerary
+![Travel Planner UI](travel-ai.webp)
 
-Agents collaborate using **CrewAI** and are powered by **LLMs**.
+### Architecture Diagram
 
----
+![System Architecture](Diagram.png)
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Backend
 
-- **FastAPI**
-- **Python (Async / asyncio)**
-- **Pydantic**
-- **CrewAI**
-- **OpenAI / LLMs**
-- **SerpAPI**
+- Python
+- FastAPI
+- Pydantic
+- CrewAI
+- OpenAI-compatible LLM integration
+- SerpAPI
+- Uvicorn
 
 ### Frontend
 
-- **Streamlit**
+- HTML
+- CSS
+- JavaScript
+- Streamlit
 
-### Other Tools
+### Supporting Tools
 
-- **dotenv** (Environment variables)
-- **Uvicorn** (ASGI server)
-- **Logging**
+- python-dotenv
+- asyncio
+- logging
 
----
-
-## 📂 Project Structure
+## Current Project Structure
 
 ```text
-.
-├── Travel-ai-planner/
-│   ├── TravelPlanner.py
-│   ├── TravelPlanner_Streamlit.py
-│
-├── .env                     # API keys
-├── requirements.txt
-└── README.md
+Travel-ai-planner/
+├── backend/
+│   ├── __init__.py
+│   ├── ai_agents.py        # AI agents for recommendations and itinerary generation
+│   ├── app.py              # FastAPI application and API routes
+│   ├── config.py           # Environment variables, provider settings, logger
+│   ├── llm.py              # LLM initialization and provider error handling
+│   ├── models.py           # Request and response models
+│   └── search.py           # SerpAPI flight and hotel search logic
+├── frontend/
+│   ├── app.js              # Browser UI logic and API calls
+│   ├── index.html          # Main web interface
+│   └── style.css           # Frontend styling
+├── Dockerfile              # Container setup
+├── Diagram.png             # Architecture / project diagram
+├── main.py                 # Minimal Python entry file
+├── pyproject.toml          # Project metadata and dependencies
+├── README.md               # Project documentation
+├── requirements.txt        # pip-based dependency list
+├── travel-ai.webp          # UI preview image
+├── TravelPlanner.py        # Root API entry point for uvicorn
+└── TravelPlanner_Streamlit.py  # Streamlit frontend
+```
 
-🔑 Environment Variables
+## Who This Is For
 
-Create a .env file in the backend directory:
+This project is useful for:
 
-OPENAI_API_KEY=your_openai_api_key
+- Students learning how AI can be integrated into real applications
+- Developers building GenAI portfolio projects
+- Founders exploring a travel assistant MVP
+- Interview preparation for full-stack or AI system design discussions
+
+## Setup Requirements
+
+Before running the project, make sure you have:
+
+- Python 3.10 or newer
+- A SerpAPI key
+- Either a Groq API key or an OpenAI API key
+
+## Environment Variables
+
+Create a `.env` file in the project root with the values below:
+
+```env
 SERP_API_KEY=your_serpapi_key
 
-▶️ How to Run the Project
+# LLM provider configuration
+LLM_PROVIDER=groq
+LLM_MODEL=openai/gpt-oss-120b
+LLM_REASONING_EFFORT=medium
+LLM_BASE_URL=https://api.groq.com/openai/v1
 
-1️⃣ Install Dependencies
-pip install -r requirements.txt
+# Use this when LLM_PROVIDER=groq
+GROQ_API_KEY=your_groq_api_key
 
-2️⃣ Start FastAPI Backend
-uvicorn TravelPlanner:app --reload
-
-Backend will run at:
-http://localhost:8000
-
-3️⃣ Start Streamlit Frontend
-streamlit run TravelPlanner_Streamlit.py
-Frontend will open at:
-
-http://localhost:8501
-
-🔌 API Endpoints
-Endpoint	Description
-/search_flights/	    Search flights + AI recommendation
-/search_hotels/	      Search hotels + AI recommendation
-/complete_search/	    Flights + hotels + itinerary
-/generate_itinerary/	Generate itinerary from inputs
-
-📸 UI Preview
-Flight cards with price, duration, and class
-Hotel cards with rating and location
-AI recommendation panels
-Day-by-day itinerary with emojis
-Download itinerary button
-
-🎯 Use Cases
-
-AI travel assistants
-Agentic AI demos
-GenAI portfolio projects
-System design interviews
-Startup MVPs
-
-🧩 Future Improvements
-
-✅ User authentication
-💾 Caching & cost optimization
-📊 LLM usage tracking
-🌍 Multi-city travel support
-🧠 Structured AI outputs (JSON)
-📱 Mobile-friendly UI
+# Use this when LLM_PROVIDER=openai
+OPENAI_API_KEY=your_openai_api_key
 ```
+
+Notes:
+
+- `LLM_PROVIDER` defaults to `groq` in the current codebase.
+- `SERP_API_KEY` is required for travel search.
+- Only one LLM provider key is needed based on the provider you choose.
+
+## Installation
+
+### Option 1: Install with pip
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+```
+
+### Option 2: Install using project metadata
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+.\.venv\Scripts\python.exe -m pip install .
+```
+
+## How To Run The Project
+
+### Start the FastAPI backend
+
+Run the backend from the project root:
+
+```powershell
+.\.venv\Scripts\python.exe -m uvicorn TravelPlanner:app --reload
+```
+
+The API will be available at:
+
+```text
+http://localhost:8000
+```
+
+### Open the web frontend
+
+The polished browser UI lives in the `frontend/` folder.
+
+You can open `frontend/index.html` directly in a browser, or serve it locally with any static file server. The frontend communicates with the FastAPI backend running on port `8000`.
+
+### Run the Streamlit frontend
+
+If you prefer the Streamlit version, run:
+
+```powershell
+.\.venv\Scripts\python.exe -m streamlit run TravelPlanner_Streamlit.py
+```
+
+The Streamlit app will usually open at:
+
+```text
+http://localhost:8501
+```
+
+## Recommended Run Flow
+
+For the best experience:
+
+1. Start the FastAPI backend.
+2. Open the `frontend/index.html` interface.
+3. Enter trip details.
+4. Review live flights, hotels, and AI suggestions.
+5. Download the generated itinerary if needed.
+
+## API Endpoints
+
+| Endpoint | Method | Purpose |
+| --- | --- | --- |
+| `/search_flights/` | `POST` | Search flights and return an AI recommendation |
+| `/search_hotels/` | `POST` | Search hotels and return an AI recommendation |
+| `/complete_search/` | `POST` | Search flights and hotels together and generate a trip itinerary |
+| `/generate_itinerary/` | `POST` | Generate an itinerary from supplied flight and hotel text |
+
+## Example User Journey
+
+Here is what happens from a user point of view:
+
+1. Enter airport codes, destination, and travel dates.
+2. Choose whether to search flights only, hotels only, or a complete trip.
+3. Submit the search.
+4. Review available options.
+5. Read the AI recommendation.
+6. Get a travel itinerary for the selected trip.
+
+## AI Agent Roles
+
+The app uses multiple AI roles to keep responsibilities clear:
+
+- Flight Analyst: compares price, duration, stops, and convenience
+- Hotel Analyst: compares rating, location, and pricing
+- Travel Planner: turns the results into a day-by-day itinerary
+
+## Error Handling
+
+The application already includes basic handling for common AI provider issues such as:
+
+- Invalid API keys
+- Quota limits
+- Rate limits
+- Missing flight or hotel results
+
+If you see a provider-related message in the UI, check your `.env` file and restart the backend.
+
+## Docker
+
+This repository includes a `Dockerfile`, which can be used to containerize the application. If you plan to use Docker, make sure the environment variables are provided to the container at runtime.
+
+## Future Improvements
+
+- User authentication
+- Search caching and cost optimization
+- LLM usage monitoring
+- Multi-city itinerary support
+- Structured JSON outputs
+- Mobile-first UI improvements
+
+## Summary
+
+This project demonstrates how to combine live travel search, AI recommendations, and itinerary generation into one practical application. It is suitable as a portfolio project, learning project, or foundation for a travel assistant product.
